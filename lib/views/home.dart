@@ -7,6 +7,7 @@ import '../model/task.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -14,13 +15,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<String> tabs = ['To-do', 'Doing', 'Done'];
 
+  List<Task> tasks = [];
+  String status = 'TODO';
   int selectedIndex = 0;
 
-  List<Task> tasks = [];
   int currentPage = 0;
   int itemsPerPage = 10;
   bool isLoading = false;
-  String status = 'TODO';
+  bool isError = false;
 
   @override
   void initState() {
@@ -45,26 +47,52 @@ class _HomeScreenState extends State<HomeScreen> {
         Uri.parse(url),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && response.body.isNotEmpty) {
         final jsonData = json.decode(response.body);
 
         if (jsonData.isNotEmpty) {
           final todo = TodoList.fromJson(jsonData);
           final taskItems = todo.tasks;
 
-          setState(() {
-            if (taskItems.isNotEmpty) {
-              tasks.addAll(taskItems);
-              currentPage++;
-            }
-          });
+          if (taskItems.isNotEmpty) {
+            setState(() {
+              if (taskItems.isNotEmpty) {
+                tasks.addAll(taskItems);
+                currentPage++;
+              }
+            });
+          } else {
+            _showPopup(context);
+          }
         }
-      } else {}
+      } else {
+        _showPopup(context);
+      }
 
       setState(() {
         isLoading = false;
       });
     }
+  }
+
+  void _showPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text('Something went wrong!'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
