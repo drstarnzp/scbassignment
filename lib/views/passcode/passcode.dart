@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scbassignment/res/app_colors.dart';
-import 'package:scbassignment/views/home.dart';
+
+import '../../assets/app_colors.dart';
+import '../../feature/home.dart';
 
 class PasscodeLockScreen extends StatefulWidget {
   @override
@@ -39,10 +40,7 @@ class _PasscodeLockScreenState extends State<PasscodeLockScreen> {
 
     if (enteredPasscode.length == 6) {
       if (enteredPasscode == passcode) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
+        Navigator.of(context).pop();
       } else {
         _clearEnteredPasscode();
       }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:scbassignment/views/home.dart';
-import 'package:scbassignment/views/passcode.dart';
+import 'package:scbassignment/views/passcode/passcode.dart';
 
-void main() => runApp(const ScbAssignment());
+import 'feature/home.dart';
+
+void main() {
+  runApp(const ScbAssignment());
+}
 
 class ScbAssignment extends StatelessWidget {
   const ScbAssignment({super.key});
