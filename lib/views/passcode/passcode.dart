@@ -50,44 +50,50 @@ class _PasscodeLockScreenState extends State<PasscodeLockScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.silver,
-      appBar: AppBar(backgroundColor: AppColors.silver,),
-      body: Column(
-        children: [
-          const Text(
-            'This is just sample UI.\nOpen to create your style :D',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18),
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              buildDot(enteredPasscode.length >= 1),
-              buildDot(enteredPasscode.length >= 2),
-              buildDot(enteredPasscode.length >= 3),
-              buildDot(enteredPasscode.length >= 4),
-              buildDot(enteredPasscode.length >= 5),
-              buildDot(enteredPasscode.length >= 6),
-            ],
-          ),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              itemCount: items.length,
-              padding: EdgeInsets.all(16),
-              itemBuilder: (BuildContext context, int index) {
-                final digit = (index + 1).toString();
-
-                return GridItem(pinText: items[index], onDigitPressed: _onDigitPressed, digit: digit,);
-              },
+      backgroundColor: AppColors.dimDarkPurple,
+      body: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            const Text(
+              'This is just sample UI.\nOpen to create your style :D',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
-          ),
-        ],
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildDot(enteredPasscode.length >= 1),
+                buildDot(enteredPasscode.length >= 2),
+                buildDot(enteredPasscode.length >= 3),
+                buildDot(enteredPasscode.length >= 4),
+                buildDot(enteredPasscode.length >= 5),
+                buildDot(enteredPasscode.length >= 6),
+              ],
+            ),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                ),
+                itemCount: items.length,
+                padding: EdgeInsets.all(16),
+                itemBuilder: (BuildContext context, int index) {
+                  final digit = (index + 1).toString();
+
+                  return GridItem(
+                    pinText: items[index],
+                    onDigitPressed: _onDigitPressed,
+                    digit: digit,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -110,19 +116,24 @@ class GridItem extends StatelessWidget {
   final String digit;
   final Function(String) onDigitPressed;
 
-  const GridItem({super.key, required this.pinText, required this.onDigitPressed, required this.digit});
+  const GridItem(
+      {super.key,
+      required this.pinText,
+      required this.onDigitPressed,
+      required this.digit});
 
   @override
   Widget build(BuildContext context) {
     if (pinText.isNotEmpty) {
       return Container(
           child: FloatingActionButton(
-        onPressed: () => {
-          onDigitPressed(digit)
-        },
+        onPressed: () => {onDigitPressed(digit)},
         shape: const CircleBorder(),
         backgroundColor: AppColors.lightGrey,
-        child: Text(pinText, style: TextStyle(fontSize: 24),),
+        child: Text(
+          pinText,
+          style: TextStyle(fontSize: 24),
+        ),
       ));
     } else {
       return Container();

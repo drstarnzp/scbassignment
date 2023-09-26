@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:scbassignment/assets/app_colors.dart';
 import 'dart:convert';
 
 import '../views/passcode/passcode.dart';
@@ -31,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
     fetchItems(status, true);
   }
 
-  Future<void> fetchItems(final String status, final bool shouldShowPasscodePopup) async {
+  Future<void> fetchItems(
+      final String status, final bool shouldShowPasscodePopup) async {
     todoTask.clear();
     doingTask.clear();
     doneTask.clear();
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = false;
       });
 
-      if(shouldShowPasscodePopup) {
+      if (shouldShowPasscodePopup) {
         _showPasscodePopup(context);
       }
     }
@@ -108,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _showPopup(BuildContext context) {
     showDialog(
       context: context,
+      useSafeArea: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Error'),
@@ -127,12 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showPasscodePopup(BuildContext context) {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return PasscodeLockScreen();
-      },
-      barrierDismissible: false,
-    );
+        context: context,
+        useSafeArea: false,
+        builder: (BuildContext context) {
+          return PasscodeLockScreen();
+        });
   }
 
   void _handleTabTap(int index) {
@@ -172,6 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.lightGrey,
         body: SafeArea(
       child: Column(
         children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../assets/app_colors.dart';
 import '../../feature/model/task.dart';
 
 class MyTabbedPage extends StatefulWidget {
@@ -30,6 +31,7 @@ class _MyTabbedPage extends State<MyTabbedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.lightGrey,
       body: Column(
         children: [
           buildTabBar(),
