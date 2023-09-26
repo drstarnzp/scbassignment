@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scbassignment/assets/app_colors.dart';
@@ -25,11 +27,39 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = false;
   bool isError = false;
 
+  late Timer _timer;
+  int _inactiveSeconds = 0;
+
   @override
   void initState() {
     super.initState();
 
     fetchItems(status, true);
+    startTimer();
+  }
+
+  void startTimer() {
+    resetTimer();
+
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      if (_inactiveSeconds >= 10) {
+        // Lock the app after 10 seconds of inactivity
+        timer.cancel();
+        _showPasscodePopup(context);
+      } else {
+        _inactiveSeconds++;
+      }
+    });
+  }
+
+  void resetTimer() {
+    _inactiveSeconds = 0;
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   Future<void> fetchItems(
@@ -129,11 +159,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showPasscodePopup(BuildContext context) {
+    _timer.cancel();
+
     showDialog(
         context: context,
         useSafeArea: false,
         builder: (BuildContext context) {
-          return PasscodeLockScreen();
+          return PasscodeLockScreen(onDismissDialog: startTimer);
         });
   }
 

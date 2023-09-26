@@ -1,9 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../assets/app_colors.dart';
 import '../../feature/home.dart';
 
 class PasscodeLockScreen extends StatefulWidget {
+  final Function() onDismissDialog;
+
+  const PasscodeLockScreen({super.key, required this.onDismissDialog});
+
   @override
   _PasscodeLockScreenState createState() => _PasscodeLockScreenState();
 }
@@ -41,6 +47,7 @@ class _PasscodeLockScreenState extends State<PasscodeLockScreen> {
     if (enteredPasscode.length == 6) {
       if (enteredPasscode == passcode) {
         Navigator.of(context).pop();
+        widget.onDismissDialog();
       } else {
         _clearEnteredPasscode();
       }
