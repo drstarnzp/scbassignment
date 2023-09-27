@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../assets/app_colors.dart';
-import '../../feature/model/task.dart';
+import '../../feature/home/model/task.dart';
 
 class MyTabbedPage extends StatefulWidget {
   final Function(int) handleTabTap;

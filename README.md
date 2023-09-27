@@ -18,5 +18,15 @@ samples, guidance on mobile development, and a full API reference.
 ## Summary
 - Language : Dart
 
+## Architecture
+- lib
+  - `assets` Asset for the project like a color, font, image etc.
+  - `feature` All about feature in the project 
+    - `model` Model of the feature
+  - `views` Custom view of the project like a tab, passcode etc.
+  -  `main.dart` Main of the application for start everything
+
 ## Library
 - [Flutter Timer Countdown](https://pub.dev/packages/flutter_timer_countdown/score)
+- [HTTP](https://pub.dev/packages/http)
+- [Mockito](https://pub.dev/packages/mockito)

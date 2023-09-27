@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scbassignment/assets/app_colors.dart';
 import 'dart:convert';
-import '../views/passcode/passcode.dart';
-import '../views/tab/tab.dart';
+import '../../views/passcode/passcode.dart';
+import '../../views/tab/tab.dart';
 import 'model/task.dart';
 
 class HomeScreen extends StatefulWidget {

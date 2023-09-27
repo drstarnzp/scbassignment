@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scbassignment/views/passcode/passcode.dart';
 
-import 'feature/home.dart';
+import 'feature/home/home.dart';
 
 void main() {
   runApp(const ScbAssignment());

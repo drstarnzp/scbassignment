@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../assets/app_colors.dart';
-import '../../feature/home.dart';
+import '../../feature/home/home.dart';
 
 class PasscodeLockScreen extends StatefulWidget {
   final Function() onDismissDialog;
