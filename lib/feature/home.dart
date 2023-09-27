@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scbassignment/assets/app_colors.dart';
 import 'dart:convert';
-
 import '../views/passcode/passcode.dart';
 import '../views/tab/tab.dart';
 import 'model/task.dart';
@@ -75,19 +74,23 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = true;
       });
 
-      String url =
-          'https://todo-list-api-mfchjooefq-as.a.run.app/todo-list?offset=$currentPage&limit=$itemsPerPage&sortBy=createdAt&isAsc=true&status=$status';
+      try {
+        String url =
+            'https://todo-list-api-mfchjooefq-as.a.run.app/todo-list?offset=$currentPage&limit=$itemsPerPage&sortBy=createdAt&isAsc=true&status=$status';
 
-      final response = await http.get(
-        Uri.parse(url),
-      );
+        final response = await http.get(
+          Uri.parse(url),
+        );
 
-      if (response.statusCode == 200 && response.body.isNotEmpty) {
-        final jsonData = json.decode(response.body);
+        if (response.statusCode == 200 && response.body.isNotEmpty) {
+          final jsonData = json.decode(response.body);
 
-        _checkJsonDataIfNotEmpty(jsonData);
-      } else {
-        _showPopup(context);
+          _checkJsonDataIfNotEmpty(jsonData);
+        } else {
+          _showErrorPopup(context);
+        }
+      } catch (error) {
+        _showErrorPopup(context);
       }
 
       setState(() {
@@ -106,6 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
       final taskItems = todo.tasks;
 
       _checkTaskIfNotEmpty(taskItems);
+    } else {
+      _showErrorPopup(context);
     }
   }
 
@@ -117,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       });
     } else {
-      _showPopup(context);
+      _showErrorPopup(context);
     }
   }
 
@@ -137,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
     currentPage++;
   }
 
-  void _showPopup(BuildContext context) {
+  void _showErrorPopup(BuildContext context) {
     showDialog(
       context: context,
       useSafeArea: false,
@@ -206,48 +211,48 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightGrey,
+        backgroundColor: AppColors.lightGrey,
         body: SafeArea(
-      child: Column(
-        children: [
-          Container(
-              margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: const Align(
-                alignment: Alignment.centerRight,
-                child: CircleAvatar(
-                  radius: 16,
-                  backgroundColor: Colors.red,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 24,
-                  ),
+          child: Column(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: const Align(
+                    alignment: Alignment.centerRight,
+                    child: CircleAvatar(
+                      radius: 16,
+                      backgroundColor: Colors.red,
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                  )),
+              const SizedBox(height: 20),
+              const Text(
+                'Hi! User',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const Text(
+                'This is just sample UI.\nOpen to create your style :D',
+                style: TextStyle(fontSize: 18),
+              ),
+              Expanded(
+                child: DefaultTabController(
+                  length: 3, // Number of tabs
+                  child: MyTabbedPage(
+                      handleTabTap: _handleTabTap,
+                      todoTask: todoTask,
+                      doingTask: doingTask,
+                      doneTask: doneTask,
+                      handleTodoTaskPressed: _handleTodoTaskPressed,
+                      handleDoingTaskPressed: _handleDoingTaskPressed,
+                      handleDoneTaskPressed: _handleDoneTaskPressed),
                 ),
-              )),
-          const SizedBox(height: 20),
-          const Text(
-            'Hi! User',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
-          const Text(
-            'This is just sample UI.\nOpen to create your style :D',
-            style: TextStyle(fontSize: 18),
-          ),
-          Expanded(
-            child: DefaultTabController(
-              length: 3, // Number of tabs
-              child: MyTabbedPage(
-                  handleTabTap: _handleTabTap,
-                  todoTask: todoTask,
-                  doingTask: doingTask,
-                  doneTask: doneTask,
-                  handleTodoTaskPressed: _handleTodoTaskPressed,
-                  handleDoingTaskPressed: _handleDoingTaskPressed,
-                  handleDoneTaskPressed: _handleDoneTaskPressed),
-            ),
-          ),
-        ],
-      ),
-    ));
+        ));
   }
 }
